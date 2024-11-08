@@ -11,3 +11,9 @@ int main () {
     double distance = sqrt(pow(x2-x1, 2)+ pow (y2-y1,2));
     cout <<"distanceBetweenPoints:"<<distance<<endl;
 }
+
+n = input()
+if (int(n) % (int(n[0]) * int(n[1])) == 0):
+    print("True")
+else:
+    print("False")
