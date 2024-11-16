@@ -1,0 +1,41 @@
+#include <stdio.h>
+
+int main() {
+    int p;
+    printf("Enter the number of months (p> 12): ");
+    scanf("%d", &p);
+    if (p<= 12) {
+        printf("Error");
+        return 1;
+    }
+    int month = p % 12; 
+
+switch (month) {
+case 0:
+printf ("january"); break;
+case 1:
+printf( "february");break;
+case 2:
+printf("march"); break;
+case 3:
+printf("april");break;
+case 4:
+printf ("may");break;
+case 5: printf("june"); break;
+case 6:
+printf("july");break;
+case 7:
+printf ("august") ;break;
+case 8:
+printf ("september") ;break;
+case 9:
+printf ("october");break;
+case 10:
+printf( "november"); break;
+case 11:
+printf ("december"); break;
+default:
+printf("error");
+}
+return 0;
+}
