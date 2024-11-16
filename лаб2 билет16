@@ -1,4 +1,5 @@
-// Online C++ compiler to run C++ program online
+задача 1:
+
 #include <iostream>
 #include <math.h>
 using namespace std;
@@ -17,3 +18,23 @@ if (int(n) % (int(n[0]) * int(n[1])) == 0):
     print("True")
 else:
     print("False")
+
+
+
+
+задача 2:
+def is_product_of_digits_divisible(n, a):
+    digits = str(abs(n) )
+    product = 1
+    for digit in digits:
+      product *= int(digit)
+    return product % a == 0
+
+
+n = int(input("enter the whole number: "))
+a = int(input("enter the number a: "))
+
+if is_product_of_digits_divisible(n, a):
+  print(f"product of digits of a number {n} is a multiple of {a}")
+else:
+  print(f"product of digits of a number {n} is not a multiple of {a}")
