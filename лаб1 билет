@@ -1,0 +1,44 @@
+задача 1: 
+#include <stdio.h>
+#include <math.h>
+
+double median_length(double a, double b, double c) {
+    return (1.0/2.0)*sqrt(2*b*b+2*c*c-a*a);
+}
+
+int main() {
+	double a, b, c;
+	printf("enter lenghts of triangle(a, b, c): ");
+	scanf("%lf %lf %lf", &a, &b, &c);
+	
+	if (a+b>c&&a+c>b&&b+c>a) {
+	    double m_a =median_length(a, b, c);
+	    printf("the length of median drawn to side a: %.2lf", m_a);
+	} else {
+	    printf("error");
+	}
+return 0;
+
+
+
+
+задача 2:
+
+print("enter a four-digit number")
+
+a = int(input())
+b=2
+if (10000 > a > 999):
+    c = str(a)
+    d = int(c[0]) + int(c[1]) + int(c[2]) + int(c[3])
+    e = int(c[0]) * int(c[1]) * int(c[2]) * int(c[3])
+    print ("sum - ", d)
+    print ("digit- ", e)
+    print ("-prime factors of numbers-")
+    while a/b>=1:
+        while a%b == 0:
+            print(b)
+            a = a/b
+        b=b+1
+else:
+    print ("error")
