@@ -1,0 +1,17 @@
+задача 1 
+
+positive_count = 0
+negative_count = 0
+zero_count = 0
+n = int(input("Введите количество чисел: "))
+for _ in range(n):
+    number = int(input("Введите число: "))
+    if number > 0:
+        positive_count += 1
+    elif number < 0:
+        negative_count += 1
+    else:
+        zero_count += 1
+print(f"Положительных чисел: {positive_count}")
+print(f"Отрицательных чисел: {negative_count}")
+print(f"Нулей: {zero_count}")
