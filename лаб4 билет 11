@@ -1,0 +1,17 @@
+с++
+задача2
+
+
+#include <iostream>
+#include <cmath>
+
+int main() {
+    int n, a;
+    std::cin>>n;
+    if (n >= 1 and n < 28)
+        for (a=100;a<999;a++)
+        {
+            if (n == a%10+ a/10%10+a/100)
+                std::cout<<a<<std::endl;
+        }
+}
