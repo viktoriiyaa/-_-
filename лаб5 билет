@@ -1,0 +1,28 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int limit;
+    cout << "Введите натуральное число: ";
+    cin >> limit;
+
+    if (limit <= 0) {
+        cout << "Ошибка: Число должно быть натуральным (больше 0)." << endl;
+        return 1;
+    }
+
+    double sum = 0.0; 
+    int n = 1;
+
+ 
+    while (11 * n <= limit) {
+        sum += 1.0 / (11 * n); 
+        n++;
+    }
+
+
+    sum += 1.0 / limit;
+
+    cout << "Сумма ряда: " << sum << endl;
+    return 0;
+}
