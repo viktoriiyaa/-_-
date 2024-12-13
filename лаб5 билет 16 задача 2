@@ -1,0 +1,16 @@
+n = int(input("Введите значение n (n > 0): "))
+
+if n <= 0:
+    print("Значение n должно быть больше 0.")
+else:
+    factorial = 1
+    i = 1
+
+    while True:
+        factorial *= i
+        i += 1
+
+        if i > 2 * n:
+            break
+
+    print(f"Факториал числа (2*{n})! = {factorial}")
