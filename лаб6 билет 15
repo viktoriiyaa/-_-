@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+int main() {
+    int number;
+    int i = 0;
+
+    printf("Введите 10 чисел:\n");
+
+    do {
+        printf("Введите число %d: ", i + 1);
+        scanf("%d", &number);
+
+        if (number * number < 100) {
+            printf("Число: %d, Квадрат: %d\n", number, number * number);
+        }
+
+        i++;
+    } while (i < 10);
+
+    return 0;
+}
