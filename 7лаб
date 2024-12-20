@@ -1,29 +1,27 @@
-#include <stdio.h>
-#include <conio.h>
-#include <string.h>
+#include <iostream>
+#include <vector>
 
-int main()
-{
-    int n, b, i, c, x;
-    printf("enter the number of array elements: ");
-    scanf("%d", &n);
-    int a[n];
+int main() {
+    int M;
+    std::cout << "Введите размер массива: ";
+    std::cin >> M;
 
-    for (int i = 0; i <= n; i++)
-    {
-        scanf("%d", &b);
-        a[i] = b;
-        printf("a[%d] = ", i);
-        printf("%d\n", a[i]);
-
-        if (n > i)
-        {
-            scanf("%d", &b);
-            a[n] = b;
-            printf("a[%d] = ", n);
-            printf("%d\n", a[n]);
-            n--;
-        }
+    std::vector<int> A(M);
+    std::cout << "Введите элементы массива: ";
+    for (int i = 0; i < M; ++i) {
+        std::cin >> A[i];
     }
+
+
+    for (int i = 0; i < M; i += 2) {
+        std::cout << A[i] << " ";
+    }
+
+
+    for (int i = 1; i < M; i += 2) {
+        std::cout << A[i] << " ";
+    }
+
+    std::cout << std::endl;
     return 0;
 }
