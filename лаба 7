@@ -25,3 +25,17 @@ int main() {
     std::cout << std::endl;
     return 0;
 }
+
+
+arr = [-1, 10, -10, 4]
+first_sign = arr[0] > 0
+
+for i in range(1, len(arr)):
+    current_sign = arr[i] > 0
+    
+    if current_sign == first_sign:
+        print(arr[i])
+        break
+    first_sign = not first_sign
+else:
+    print(0)
