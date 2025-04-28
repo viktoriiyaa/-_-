@@ -2,12 +2,13 @@
 #include <cmath>
 #include <iomanip>
 
-// Функция, которую интегрируем: x^5 / sqrt(4 - sqrt(x))
+// Функция, которую интегрируем: x^5 / sqrt(4 - x^2)
 double f(double x) {
-    double denominator = sqrt(4.0 - sqrt(x));
+    double denominator = sqrt(4.0 - x*x);
     // Проверка на особые точки
     if (denominator <= 0 || std::isnan(denominator)) {
-        return 0; // Возвращаем 0 в особых точках
+        std::cerr << "Ошибка: функция не определена в точке x = " << x << std::endl;
+        return 0;
     }
     return pow(x, 5) / denominator;
 }
@@ -27,19 +28,19 @@ double rectangleMethod(double a, double b, int n) {
 
 int main() {
     double lowerLimit = 0.0; // Нижний предел (0)
-    double upperLimit = 16.0; // Верхний предел (16, так как при x>16 подкоренное выражение отрицательно)
+    double upperLimit = 2.0; // Верхний предел (2)
     double previousResult = 0.0;
     double result = 0.0;
     int n = 1; // Начальное количество прямоугольников
 
-    std::cout << "Вычисление интеграла от x^5/sqrt(4-sqrt(x)) от " 
-              << lowerLimit << " до " << upperLimit << std::endl;
-
-    // Проверка особых точек
-    if (4.0 - sqrt(lowerLimit) <= 0 || 4.0 - sqrt(upperLimit) <= 0) {
+    // Проверка особых точек на границах
+    if (4.0 - lowerLimit*lowerLimit <= 0 || 4.0 - upperLimit*upperLimit <= 0) {
         std::cerr << "Ошибка: функция не определена на границах интервала" << std::endl;
         return 1;
     }
+
+    std::cout << "Вычисление интеграла от x^5/sqrt(4-x^2) от " 
+              << lowerLimit << " до " << upperLimit << std::endl;
 
     while (true) {
         result = rectangleMethod(lowerLimit, upperLimit, n);
@@ -60,7 +61,8 @@ int main() {
     }
 
     std::cout << std::fixed << std::setprecision(8);
-    std::cout << "Значение интеграла: " << result << std::endl;
+    std::cout << "Численное значение интеграла: " << result << std::endl;
+    std::cout << "Аналитическое значение: " << 128.0/15.0 << std::endl; // 128/15 ≈ 8.53333333
     std::cout << "Количество разбиений: " << n << std::endl;
 
     return 0;
