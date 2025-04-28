@@ -1,0 +1,49 @@
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+
+// Функция, которую интегрируем: (1/x^2) * sin(1/x)
+double f(double x) {
+    return (1.0 / (x * x)) * sin(1.0 / x);
+}
+
+// Метод прямоугольников для численного интегрирования
+double rectangleMethod(double a, double b, int n) {
+    double h = (b - a) / n; // Ширина прямоугольников
+    double sum = 0.0;
+
+    for (int i = 0; i < n; ++i) {
+        double x = a + i * h; // Левый конец интервала
+        sum += f(x) * h; // Площадь прямоугольника
+    }
+
+    return sum;
+}
+
+int main() {
+    double lowerLimit = 2.0 / M_PI; // Нижний предел (2/π)
+    double upperLimit = 1e6; // Большое число, заменяющее +бесконечность (можно увеличить при необходимости)
+    double previousResult = 0.0;
+    double result = 0.0;
+    int n = 1; // Начальное количество прямоугольников
+
+    std::cout << "Вычисление интеграла от (1/x^2)*sin(1/x) от " << lowerLimit << " до +∞" << std::endl;
+
+    while (true) {
+        result = rectangleMethod(lowerLimit, upperLimit, n);
+        
+        // Проверка на сходимость (разница между текущим и предыдущим результатом)
+        if (fabs(result - previousResult) < 1e-6) {
+            break; // Достигнута заданная точность
+        }
+
+        previousResult = result;
+        n *= 2; // Увеличиваем количество прямоугольников
+    }
+
+    std::cout << std::fixed << std::setprecision(8);
+    std::cout << "Значение интеграла: " << result << std::endl;
+    std::cout << "Количество разбиений: " << n << std::endl;
+
+    return 0;
+}
