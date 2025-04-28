@@ -1,0 +1,30 @@
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+
+double f(double x) {
+    return (1.0 / (x*x)) * sin(1.0 / x);
+}
+
+double simpson(double a, double b, int n) {
+    double h = (b - a) / n;
+    double sum = f(a) + f(b);
+    for (int i = 1; i < n; i += 2) sum += 4 * f(a + i*h);
+    for (int i = 2; i < n-1; i += 2) sum += 2 * f(a + i*h);
+    return sum * h / 3;
+}
+
+int main() {
+    double a = 2.0/M_PI, b = 1e6;
+    int n = 2;
+    double result, prev;
+    do {
+        prev = result;
+        result = simpson(a, b, n);
+        n *= 2;
+    } while (fabs(result - prev) > 1e-8);
+    
+    std::cout << std::fixed << std::setprecision(10);
+    std::cout << "Результат: " << result << "\nРазбиений: " << n/2 << std::endl;
+    return 0;
+}
