@@ -1,0 +1,67 @@
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+
+// Функция, которую интегрируем: x^5 / sqrt(4 - sqrt(x))
+double f(double x) {
+    double denominator = sqrt(4.0 - sqrt(x));
+    // Проверка на особые точки
+    if (denominator <= 0 || std::isnan(denominator)) {
+        return 0; // Возвращаем 0 в особых точках
+    }
+    return pow(x, 5) / denominator;
+}
+
+// Метод прямоугольников для численного интегрирования
+double rectangleMethod(double a, double b, int n) {
+    double h = (b - a) / n; // Ширина прямоугольников
+    double sum = 0.0;
+
+    for (int i = 0; i < n; ++i) {
+        double x = a + (i + 0.5) * h; // Средняя точка интервала
+        sum += f(x) * h; // Площадь прямоугольника
+    }
+
+    return sum;
+}
+
+int main() {
+    double lowerLimit = 0.0; // Нижний предел (0)
+    double upperLimit = 16.0; // Верхний предел (16, так как при x>16 подкоренное выражение отрицательно)
+    double previousResult = 0.0;
+    double result = 0.0;
+    int n = 1; // Начальное количество прямоугольников
+
+    std::cout << "Вычисление интеграла от x^5/sqrt(4-sqrt(x)) от " 
+              << lowerLimit << " до " << upperLimit << std::endl;
+
+    // Проверка особых точек
+    if (4.0 - sqrt(lowerLimit) <= 0 || 4.0 - sqrt(upperLimit) <= 0) {
+        std::cerr << "Ошибка: функция не определена на границах интервала" << std::endl;
+        return 1;
+    }
+
+    while (true) {
+        result = rectangleMethod(lowerLimit, upperLimit, n);
+        
+        // Проверка на сходимость
+        if (n > 1 && fabs(result - previousResult) < 1e-6) {
+            break; // Достигнута заданная точность
+        }
+
+        previousResult = result;
+        n *= 2; // Увеличиваем количество прямоугольников
+
+        // Защита от бесконечного цикла
+        if (n > 1000000) {
+            std::cerr << "Достигнуто максимальное количество разбиений" << std::endl;
+            break;
+        }
+    }
+
+    std::cout << std::fixed << std::setprecision(8);
+    std::cout << "Значение интеграла: " << result << std::endl;
+    std::cout << "Количество разбиений: " << n << std::endl;
+
+    return 0;
+}
