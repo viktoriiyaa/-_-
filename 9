@@ -1,0 +1,71 @@
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+
+// Функция, которую интегрируем: e^(-a*x) * cos(b*x)
+double f(double x, double a, double b) {
+    return exp(-a * x) * cos(b * x);
+}
+
+// Метод прямоугольников для численного интегрирования
+double rectangleMethod(double a, double b, double lower, double upper, int n) {
+    double h = (upper - lower) / n; // Ширина прямоугольников
+    double sum = 0.0;
+
+    for (int i = 0; i < n; ++i) {
+        double x = lower + (i + 0.5) * h; // Средняя точка интервала
+        sum += f(x, a, b) * h; // Площадь прямоугольника
+    }
+
+    return sum;
+}
+
+int main() {
+    double a, b; // Параметры функции (a > 0, b > 0)
+    double lowerLimit = 0.0; // Нижний предел
+    double upperLimit = 50.0; // Верхний предел (достаточно большой для сходимости)
+    double epsilon = 1e-6; // Точность
+    int max_iter = 1000000; // Максимальное число разбиений
+
+    // Ввод параметров
+    std::cout << "Введите параметр a (a > 0): ";
+    std::cin >> a;
+    std::cout << "Введите параметр b (b > 0): ";
+    std::cin >> b;
+
+    if (a <= 0 || b <= 0) {
+        std::cerr << "Ошибка: параметры должны быть положительными!" << std::endl;
+        return 1;
+    }
+
+    double previousResult = 0.0;
+    double result = 0.0;
+    int n = 1; // Начальное количество прямоугольников
+
+    std::cout << "Вычисление интеграла от e^(-" << a << "*x) * cos(" << b << "*x) от 0 до +∞" << std::endl;
+
+    while (true) {
+        result = rectangleMethod(a, b, lowerLimit, upperLimit, n);
+        
+        // Проверка на сходимость
+        if (n > 1 && fabs(result - previousResult) < epsilon) {
+            break;
+        }
+
+        previousResult = result;
+        n *= 2; // Увеличиваем количество прямоугольников
+
+        // Защита от бесконечного цикла
+        if (n > max_iter) {
+            std::cerr << "Достигнуто максимальное количество разбиений!" << std::endl;
+            break;
+        }
+    }
+
+    std::cout << std::fixed << std::setprecision(8);
+    std::cout << "Численное значение интеграла: " << result << std::endl;
+    std::cout << "Аналитическое значение: " << a / (a*a + b*b) << std::endl;
+    std::cout << "Количество разбиений: " << n << std::endl;
+
+    return 0;
+}
