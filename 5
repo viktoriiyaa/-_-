@@ -1,0 +1,64 @@
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+
+// Функция, которую интегрируем: 1/(x * sqrt(3x^3 - 2x - 1))
+double f(double x) {
+    double denominator = x * sqrt(3 * x * x * x - 2 * x - 1);
+    return 1.0 / denominator;
+}
+
+// Метод прямоугольников для численного интегрирования
+double rectangleMethod(double a, double b, int n) {
+    double h = (b - a) / n; // Ширина прямоугольников
+    double sum = 0.0;
+
+    for (int i = 0; i < n; ++i) {
+        double x = a + (i + 0.5) * h; // Средняя точка для метода средних прямоугольников
+        sum += f(x) * h; // Площадь прямоугольника
+    }
+
+    return sum;
+}
+
+int main() {
+    double lowerLimit = 1.0; // Нижний предел (1)
+    double upperLimit = 2.0; // Верхний предел (2)
+    double previousResult = 0.0;
+    double result = 0.0;
+    int n = 1; // Начальное количество прямоугольников
+
+    // Проверка, что функция определена на границах
+    if (3*lowerLimit*lowerLimit*lowerLimit - 2*lowerLimit - 1 <= 0 ||
+        3*upperLimit*upperLimit*upperLimit - 2*upperLimit - 1 <= 0) {
+        std::cerr << "Ошибка: функция не определена на границах интервала" << std::endl;
+        return 1;
+    }
+
+    std::cout << "Вычисление интеграла от 1/(x*sqrt(3x^3-2x-1)) от " 
+              << lowerLimit << " до " << upperLimit << std::endl;
+
+    while (true) {
+        result = rectangleMethod(lowerLimit, upperLimit, n);
+        
+        // Проверка на сходимость (разница между текущим и предыдущим результатом)
+        if (n > 1 && fabs(result - previousResult) < 1e-6) {
+            break; // Достигнута заданная точность
+        }
+
+        previousResult = result;
+        n *= 2; // Увеличиваем количество прямоугольников
+        
+        // Защита от бесконечного цикла
+        if (n > 1000000) {
+            std::cerr << "Достигнуто максимальное количество разбиений" << std::endl;
+            break;
+        }
+    }
+
+    std::cout << std::fixed << std::setprecision(8);
+    std::cout << "Значение интеграла: " << result << std::endl;
+    std::cout << "Количество разбиений: " << n << std::endl;
+
+    return 0;
+}
