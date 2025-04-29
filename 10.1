@@ -1,0 +1,87 @@
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+
+// Функция, которую интегрируем: 1/(x^2 - 4x + 3)
+double f(double x) {
+    return 1.0 / (x*x - 4*x + 3);
+}
+
+// Метод прямоугольников для численного интегрирования
+double rectangleMethod(double a, double b, int n) {
+    double h = (b - a) / n; // Ширина прямоугольников
+    double sum = 0.0;
+
+    for (int i = 0; i < n; ++i) {
+        double x = a + (i + 0.5) * h; // Средняя точка интервала
+        sum += f(x) * h; // Площадь прямоугольника
+    }
+
+    return sum;
+}
+
+int main() {
+    double lowerLimit1 = 0.0; // Нижний предел первого интервала
+    double upperLimit1 = 1.0; // Верхний предел первого интервала
+    double lowerLimit2 = 1.0; // Нижний предел второго интервала
+    double upperLimit2 = 2.0; // Верхний предел второго интервала
+    double previousResult1 = 0.0;
+    double previousResult2 = 0.0;
+    double result1 = 0.0;
+    double result2 = 0.0;
+    int n = 1; // Начальное количество прямоугольников
+
+    std::cout << "Вычисление интеграла от 1/(x^2-4x+3) от " 
+              << lowerLimit1 << " до " << upperLimit2 << std::endl;
+
+    // Первый интервал: от 0 до 1
+    while (true) {
+        result1 = rectangleMethod(lowerLimit1, upperLimit1, n);
+        
+        // Проверка на сходимость
+        if (n > 1 && fabs(result1 - previousResult1) < 1e-6) {
+            break; // Достигнута заданная точность
+        }
+
+        previousResult1 = result1;
+        n *= 2; // Увеличиваем количество прямоугольников
+
+        // Защита от бесконечного цикла
+        if (n > 1000000) {
+            std::cerr << "Достигнуто максимальное количество разбиений" << std::endl;
+            break;
+        }
+    }
+
+    // Сброс количества разбиений для второго интервала
+    n = 1;
+
+    // Второй интервал: от 1 до 2
+    while (true) {
+        result2 = rectangleMethod(lowerLimit2, upperLimit2, n);
+        
+        // Проверка на сходимость
+        if (n > 1 && fabs(result2 - previousResult2) < 1e-6) {
+            break; // Достигнута заданная точность
+        }
+
+        previousResult2 = result2;
+        n *= 2; // Увеличиваем количество прямоугольников
+
+        // Защита от бесконечного цикла
+        if (n > 1000000) {
+            std::cerr << "Достигнуто максимальное количество разбиений" << std::endl;
+            break;
+        }
+    }
+
+    // Суммируем результаты двух интервалов
+    double totalResult = result1 + result2;
+
+    std::cout << std::fixed << std::setprecision(8);
+    std::cout << "Численное значение интеграла: " << totalResult << std::endl;
+    std::cout << "Аналитическое значение: " << log(3.0)/2.0 - log(1.0)/2.0 << std::endl;
+    std::cout << "Количество разбиений (первый интервал): " << n << std::endl;
+
+    return 0;
+}
